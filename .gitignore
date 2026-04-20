@@ -7,4 +7,4 @@ assets/
 plugin/
 
 # Release builds
-*.zip
+releases/
