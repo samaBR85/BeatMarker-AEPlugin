@@ -5,3 +5,6 @@
 AE Project/
 assets/
 plugin/
+
+# Release builds
+*.zip
