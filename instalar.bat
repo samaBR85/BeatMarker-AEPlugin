@@ -48,8 +48,24 @@ if %errorLevel% neq 0 (
   exit /b 1
 )
 
-:: Verificar se o AE 2026 existe
-set AE_PATH=C:\Program Files\Adobe\Adobe After Effects 2026\Support Files
+:: Detectar caminho do AE 2026 via registro
+set AE_PATH=
+for /f "tokens=2*" %%a in ('reg query "HKLM\SOFTWARE\Adobe\After Effects\26.0" /v "InstallPath" 2^>nul') do set AE_PATH=%%b
+if not defined AE_PATH (
+  for /f "tokens=2*" %%a in ('reg query "HKLM\SOFTWARE\WOW6432Node\Adobe\After Effects\26.0" /v "InstallPath" 2^>nul') do set AE_PATH=%%b
+)
+
+:: Fallback: caminho padrão
+if not defined AE_PATH (
+  set AE_PATH=C:\Program Files\Adobe\Adobe After Effects 2026
+)
+
+:: Remover barra final se houver
+if "%AE_PATH:~-1%"=="\" set AE_PATH=%AE_PATH:~0,-1%
+
+set AE_PATH=%AE_PATH%\Support Files
+
+:: Verificar se o caminho existe
 if not exist "%AE_PATH%" (
   if %PT%==1 (
     echo  ERRO: After Effects 2026 nao encontrado em:
@@ -66,6 +82,8 @@ if not exist "%AE_PATH%" (
   pause
   exit /b 1
 )
+
+if %PT%==1 (echo  AE encontrado em: %AE_PATH%) else (echo  AE found at: %AE_PATH%)
 
 :: Copiar arquivos do plugin
 set DEST=%AE_PATH%\BeatMarkerAE
