@@ -1,0 +1,7 @@
+# Claude Code internal
+.claude/
+
+# Pastas de desenvolvimento local
+AE Project/
+assets/
+plugin/

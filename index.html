@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8"/>
+  <title>BeatMarker AE</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Adobe Clean', Arial, sans-serif;
+      font-size: 12px;
+      background: #1c1c1c;
+      color: #c8c8c8;
+      padding: 10px;
+      user-select: none;
+      min-width: 240px;
+    }
+
+    /* ── Header ── */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .header-left { display: flex; align-items: center; gap: 7px; }
+    .header-title { font-size: 11px; font-weight: bold; letter-spacing: 1.5px; color: #ddd; text-transform: uppercase; }
+    .header-version { font-size: 10px; color: #666; }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #555; flex-shrink: 0; transition: background 0.4s; }
+    .status-dot.ready  { background: #4c4; box-shadow: 0 0 5px #4c4; }
+    .status-dot.busy   { background: #ca4; box-shadow: 0 0 5px #ca4; }
+    .header-author { font-size: 10px; color: #555; text-decoration: none; }
+    .header-author:hover { color: #5b9cf6; text-decoration: underline; }
+
+    /* ── Clip card ── */
+    .clip-card {
+      background: #252525;
+      border: 1px solid #333;
+      border-radius: 6px;
+      padding: 8px 10px;
+      margin-bottom: 10px;
+      min-height: 44px;
+    }
+    #clip-name {
+      font-size: 12px;
+      font-weight: bold;
+      color: #5b9cf6;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 2px;
+      text-align: center;
+    }
+    #clip-name.hint { color: #5b9cf6; font-size: 13px; font-weight: normal; font-style: normal; text-align: center; }
+    #clip-sub.hint  { font-size: 11px; color: #5b9cf6; opacity: 0.6; text-align: center; }
+    #clip-sub { font-size: 10px; color: #666; text-align: center; }
+
+    /* ── BPM ── */
+    .bpm-wrap { text-align: center; margin-bottom: 8px; }
+    #bpm-val {
+      font-size: 52px;
+      font-weight: bold;
+      color: #f0f0f0;
+      line-height: 1;
+      letter-spacing: -2px;
+    }
+    .bpm-sub { font-size: 11px; color: #666; margin-top: 2px; }
+
+    /* ── Confidence ── */
+    #confidence-wrap { margin-bottom: 10px; display: none; }
+    .conf-track { background: #222; border-radius: 3px; height: 5px; margin-bottom: 6px; overflow: hidden; }
+    .conf-bar   { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
+    .conf-bar    { transition: width 0.5s ease, background 0.5s ease; }
+    .conf-quote  { font-style: italic; font-size: 11px; color: #aaa; text-align: center; margin-bottom: 2px; }
+    .conf-desc   { font-size: 10px; color: #666; text-align: center; margin-bottom: 5px; }
+    #conf-status { font-size: 11px; text-align: center; font-weight: bold; }
+    #conf-status.ready   { color: #5b9cf6; }
+    #conf-status.warning { color: #ca4; }
+    #conf-status.error   { color: #c44; }
+
+    /* ── Beat buttons ── */
+    .beats-hint { font-size: 10px; color: #555; text-align: center; margin-bottom: 5px; }
+    .beats-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      margin-bottom: 10px;
+    }
+    .beat-btn {
+      width: 38px; height: 34px;
+      border-radius: 5px;
+      border: 2px solid transparent;
+      font-size: 13px;
+      font-weight: bold;
+      color: #fff;
+      cursor: pointer;
+      opacity: 0.9;
+      margin: 0;
+      padding: 0;
+      flex-shrink: 0;
+      transition: opacity 0.15s, filter 0.15s;
+      position: relative;
+    }
+    .beat-btn:hover { filter: brightness(1.2); }
+    .beat-btn.off {
+      opacity: 0.25;
+      filter: grayscale(80%);
+    }
+    .beat-btn.off::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 10%; right: 10%;
+      height: 2px;
+      background: rgba(255,255,255,0.6);
+      transform: translateY(-50%);
+      border-radius: 1px;
+    }
+    .beat-1 { background: #c0392b; }
+    .beat-2 { background: #2455b0; }
+    .beat-3 { background: #b07d10; }
+    .beat-4 { background: #0e7c7c; }
+    .phase-btn {
+      width: 28px; height: 34px;
+      background: #2e2e2e;
+      border: 1px solid #444;
+      border-radius: 5px;
+      color: #aaa;
+      font-size: 13px;
+      cursor: pointer;
+      margin: 0;
+      padding: 0;
+      flex-shrink: 0;
+    }
+    .phase-btn:hover { background: #3a3a3a; color: #fff; }
+
+    /* ── Phase target toggle ── */
+    .phase-target-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .phase-target-label {
+      font-size: 10px;
+      color: #555;
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+    .phase-target-label.active { color: #bbb; }
+
+    /* Toggle switch */
+    .toggle-wrap { position: relative; width: 36px; height: 18px; flex-shrink: 0; }
+    .toggle-wrap input { opacity: 0; width: 0; height: 0; position: absolute; }
+    .toggle-slider {
+      position: absolute; inset: 0;
+      background: #444;
+      border-radius: 18px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .toggle-slider::before {
+      content: '';
+      position: absolute;
+      width: 12px; height: 12px;
+      left: 3px; top: 3px;
+      background: #bbb;
+      border-radius: 50%;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .toggle-wrap input:checked + .toggle-slider { background: #2a5a2a; }
+    .toggle-wrap input:checked + .toggle-slider::before { transform: translateX(18px); background: #8f8; }
+
+    /* ── Buttons ── */
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 9px 10px;
+      margin-bottom: 6px;
+      border: none;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 0.8px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: opacity 0.15s, filter 0.15s;
+    }
+    .btn:disabled { opacity: 0.3; cursor: default; }
+    .btn:hover:not(:disabled) { filter: brightness(1.15); }
+
+    .btn-analyze { background: linear-gradient(180deg, #3a3a3a, #2a2a2a); color: #ccc; border: 1px solid #555; }
+    .btn-create  { background: linear-gradient(180deg, #1e4d1e, #173817); color: #8f8; border: 1px solid #2a6b2a; }
+    .btn-remove  { background: linear-gradient(180deg, #4a1a1a, #3a1212); color: #e88; border: 1px solid #6a2a2a; }
+
+    /* ── Botões duplos (clip / timeline) ── */
+    .btn-pair {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 6px;
+    }
+    .btn-pair .btn {
+      flex: 1;
+      margin-bottom: 0;
+      font-size: 10px;
+      padding: 9px 6px;
+      letter-spacing: 0.4px;
+    }
+    .btn-pair .btn:first-child { border-radius: 20px 6px 6px 20px; }
+    .btn-pair .btn:last-child  { border-radius: 6px 20px 20px 6px; }
+
+    /* ── Log ── */
+    .log-section { margin-top: 8px; }
+    #log-toggle-btn {
+      display: block;
+      width: 100%;
+      background: #252525;
+      border: 1px solid #333;
+      border-radius: 20px;
+      color: #555;
+      font-size: 10px;
+      cursor: pointer;
+      padding: 5px;
+      text-transform: none;
+      letter-spacing: 0;
+      text-align: center;
+      margin-bottom: 5px;
+    }
+    #log-toggle-btn:hover { color: #888; }
+    #log {
+      background: #111;
+      border: 1px solid #2a2a2a;
+      border-radius: 4px;
+      padding: 6px;
+      max-height: 130px;
+      overflow-y: auto;
+      font-family: monospace;
+      font-size: 10px;
+      color: #666;
+      display: none;
+      user-select: text;
+      -webkit-user-select: text;
+    }
+    #log div { margin-bottom: 2px; }
+    .log-footer {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-top: 3px;
+    }
+    #btn-copy-log {
+      background: #2a2a2a;
+      border: 1px solid #444;
+      border-radius: 10px;
+      color: #666;
+      font-size: 10px;
+      cursor: pointer;
+      padding: 2px 8px;
+      width: auto;
+      margin: 0;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+    #btn-copy-log:hover { color: #aaa; }
+
+    /* ── Status + Footer ── */
+    #status-msg { font-size: 11px; text-align: center; color: #4c4; min-height: 16px; margin-top: 6px; }
+    .footer { font-size: 10px; color: #444; text-align: center; margin-top: 6px; }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <span class="header-title">Beat Marker</span>
+      <span class="header-version">v1.0</span>
+    </div>
+    <div id="status-dot" class="status-dot"></div>
+    <a class="header-author" href="https://github.com/samaBR85" target="_blank">by samaBR</a>
+  </div>
+
+  <!-- Clip card -->
+  <div class="clip-card">
+    <div id="clip-name" class="hint"></div>
+    <div id="clip-sub" class="hint"></div>
+  </div>
+
+  <!-- BPM -->
+  <div class="bpm-wrap">
+    <div id="bpm-val">-- --</div>
+    <div class="bpm-sub">BPM · 4/4</div>
+  </div>
+
+  <!-- Confidence -->
+  <div id="confidence-wrap">
+    <div class="conf-track"><div id="confidence-bar" class="conf-bar" style="width:0%"></div></div>
+    <div id="conf-quote" class="conf-quote"></div>
+    <div id="conf-desc"  class="conf-desc"></div>
+    <div id="conf-status"></div>
+  </div>
+
+  <!-- Action buttons -->
+  <button class="btn btn-analyze" id="btn-analyze"></button>
+
+  <!-- Beat buttons -->
+  <div class="beats-hint" id="beats-hint"></div>
+  <div class="beats-row">
+    <button class="phase-btn" id="btn-prev">◀</button>
+    <button class="beat-btn beat-1" id="beat-1">1</button>
+    <button class="beat-btn beat-2" id="beat-2">2</button>
+    <button class="beat-btn beat-3" id="beat-3">3</button>
+    <button class="beat-btn beat-4" id="beat-4">4</button>
+    <button class="phase-btn" id="btn-next">▶</button>
+  </div>
+
+  <!-- Phase target toggle -->
+  <div class="phase-target-row">
+    <span class="phase-target-label active" id="phase-label-clip"></span>
+    <label class="toggle-wrap">
+      <input type="checkbox" id="phase-target-toggle">
+      <span class="toggle-slider"></span>
+    </label>
+    <span class="phase-target-label" id="phase-label-comp"></span>
+  </div>
+  <div class="btn-pair">
+    <button class="btn btn-create" id="btn-apply-clip"  disabled></button>
+    <button class="btn btn-create" id="btn-apply-comp"  disabled></button>
+  </div>
+  <div class="btn-pair">
+    <button class="btn btn-remove" id="btn-clear-clip"></button>
+    <button class="btn btn-remove" id="btn-clear-comp"></button>
+  </div>
+
+  <!-- Log -->
+  <div class="log-section">
+    <button id="log-toggle-btn" onclick="toggleLog()"></button>
+    <div id="log"></div>
+    <div class="log-footer" id="log-footer" style="display:none">
+      <button id="btn-copy-log" onclick="copyLog()"></button>
+    </div>
+  </div>
+
+  <!-- Status + footer -->
+  <div id="status-msg"></div>
+  <div class="footer" id="footer-text"></div>
+
+  <script src="lib/CSInterface.js"></script>
+  <script src="analysis-bundle.js"></script>
+  <script src="main.js"></script>
+  <script>
+    function toggleLog() {
+      const log    = document.getElementById('log');
+      const footer = document.getElementById('log-footer');
+      const btn    = document.getElementById('log-toggle-btn');
+      const open   = log.style.display !== 'block';
+      log.style.display    = open ? 'block' : 'none';
+      footer.style.display = open ? 'flex'  : 'none';
+      // S vem do main.js (já carregado antes deste bloco)
+      btn.textContent = open ? S.hideLog : S.showLog;
+    }
+    function copyLog() {
+      const text = document.getElementById('log').innerText;
+      const btn  = document.getElementById('btn-copy-log');
+      const reset = () => { btn.textContent = S.copyLog; };
+      try {
+        navigator.clipboard.writeText(text).then(() => { btn.textContent = S.copied; setTimeout(reset, 1500); });
+      } catch {
+        const ta = document.createElement('textarea');
+        ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+        btn.textContent = S.copied; setTimeout(reset, 1500);
+      }
+    }
+  </script>
+</body>
+</html>
