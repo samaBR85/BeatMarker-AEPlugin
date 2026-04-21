@@ -11,15 +11,15 @@
   <meta property="og:url"          content="https://samabr85.github.io/BeatMarker-AEPlugin/" />
   <meta property="og:title"        content="BeatMarker AE — Beat detection for After Effects" />
   <meta property="og:description"  content="Free CEP plugin for Adobe After Effects 2026. Auto-detects BPM and places colored beat markers on your audio layers." />
-  <meta property="og:image"        content="https://samabr85.github.io/BeatMarker-AEPlugin/screenshots/og-image.png" />
-  <meta property="og:image:width"  content="1200" />
-  <meta property="og:image:height" content="630" />
+  <meta property="og:image"        content="https://samabr85.github.io/BeatMarker-AEPlugin/screenshots/plugin-screen.png" />
+  <meta property="og:image:width"  content="430" />
+  <meta property="og:image:height" content="600" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card"        content="summary_large_image" />
   <meta name="twitter:title"       content="BeatMarker AE — Beat detection for After Effects" />
   <meta name="twitter:description" content="Free CEP plugin for Adobe After Effects 2026. Auto-detects BPM and places colored beat markers on your audio layers." />
-  <meta name="twitter:image"       content="https://samabr85.github.io/BeatMarker-AEPlugin/screenshots/og-image.png" />
+  <meta name="twitter:image"       content="https://samabr85.github.io/BeatMarker-AEPlugin/screenshots/plugin-screen.png" />
 
   <style>
     :root {
@@ -213,6 +213,29 @@
     .target-icon { font-size: 28px; margin-bottom: 16px; }
     @media (max-width: 600px) { .targets-box { grid-template-columns: 1fr; } }
 
+    /* ── SHORTCUTS BOX ── */
+    .shortcuts-box {
+      margin-top: 32px;
+      border: 1px solid var(--border); border-radius: 12px;
+      padding: 28px 32px; display: flex; align-items: center; gap: 40px;
+      flex-wrap: wrap;
+    }
+    .shortcuts-box .shortcuts-label {
+      font-size: 13px; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--muted); flex: 0 0 auto;
+    }
+    .shortcuts-list { display: flex; gap: 24px; flex-wrap: wrap; }
+    .shortcut-item { display: flex; align-items: center; gap: 10px; }
+    .kbd {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px;
+      background: var(--bg3); border: 1px solid #444;
+      border-radius: 7px; font-size: 17px; font-weight: 700;
+      font-family: 'Segoe UI', monospace; color: var(--text);
+      box-shadow: 0 2px 0 #111; flex-shrink: 0;
+    }
+    .shortcut-desc { font-size: 14px; color: var(--muted); }
+
     /* ── INSTALL ── */
     .install-box {
       background: var(--bg2); border: 1px solid var(--border);
@@ -405,6 +428,20 @@
         <div class="target-icon">📐</div>
         <h3 data-en="Create on Timeline" data-pt="Criar na Timeline">Create on Timeline</h3>
         <p data-en="Markers are placed on the composition bar — separate from any layer. No interference with layer dragging." data-pt="Marcadores são criados na barra da composição — separados de qualquer layer. Sem interferir no arraste de layers.">Markers are placed on the composition bar — separate from any layer. No interference with layer dragging.</p>
+      </div>
+    </div>
+
+    <div class="shortcuts-box">
+      <div class="shortcuts-label" data-en="AE Shortcuts" data-pt="Atalhos AE">AE Shortcuts</div>
+      <div class="shortcuts-list">
+        <div class="shortcut-item">
+          <span class="kbd">J</span>
+          <span class="shortcut-desc" data-en="Previous Marker" data-pt="Marcador anterior">Previous Marker</span>
+        </div>
+        <div class="shortcut-item">
+          <span class="kbd">K</span>
+          <span class="shortcut-desc" data-en="Next Marker" data-pt="Próximo marcador">Next Marker</span>
+        </div>
       </div>
     </div>
   </section>

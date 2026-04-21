@@ -28,7 +28,13 @@ BeatMarker AE analyzes the BPM of an audio layer and places colored markers on e
 
 ## Screenshots
 
-*(coming soon)*
+**Plugin panel**
+
+![BeatMarker AE plugin panel](docs/screenshots/plugin-screen.png)
+
+**Beat markers on the After Effects timeline**
+
+![Beat markers on the AE timeline](docs/screenshots/sample.png)
 
 ---
 
@@ -52,6 +58,17 @@ See [INSTALL.md](INSTALL.md) for full instructions.
 4. Toggle which beats you want marked (1, 2, 3, 4)
 5. Use **◀ ▶** to shift the beat phase if needed
 6. Click **Create on Clip** or **Create on Timeline**
+
+---
+
+## Keyboard Shortcuts
+
+After Effects native shortcuts that work with BeatMarker markers:
+
+| Key | Action |
+|-----|--------|
+| `J` | Previous Marker |
+| `K` | Next Marker |
 
 ---
 
