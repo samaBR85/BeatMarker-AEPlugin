@@ -33,4 +33,4 @@ All notable changes to this project will be documented here.
 - Clean markers using `setParameters()` — no text visible on marker shield
 - Confidence indicator with 30 Whiplash-themed analysis phrases
 - Bilingual UI: Portuguese (pt-BR) and English, auto-detected from system locale
-- One-click installer (`install.bat`) for Windows / After Effects 2026
+- One-click installer (`install_BeatMarkerAE.bat`) for Windows / After Effects 2026
