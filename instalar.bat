@@ -92,12 +92,12 @@ if %PT%==1 (echo  Copiando arquivos...) else (echo  Copying files...)
 if exist "%DEST%" rmdir /S /Q "%DEST%"
 mkdir "%DEST%"
 
-xcopy /E /I /Y "%~dp0CSXS"              "%DEST%\CSXS\"              >nul
-xcopy /E /I /Y "%~dp0jsx"               "%DEST%\jsx\"               >nul
-xcopy /E /I /Y "%~dp0lib"               "%DEST%\lib\"               >nul
-copy  /Y        "%~dp0index.html"        "%DEST%\index.html"         >nul
-copy  /Y        "%~dp0main.js"           "%DEST%\main.js"            >nul
-copy  /Y        "%~dp0analysis-bundle.js" "%DEST%\analysis-bundle.js" >nul
+xcopy /E /I /Y "%~dp0install\BeatMarkerAE\CSXS"              "%DEST%\CSXS\"              >nul
+xcopy /E /I /Y "%~dp0install\BeatMarkerAE\jsx"               "%DEST%\jsx\"               >nul
+xcopy /E /I /Y "%~dp0install\BeatMarkerAE\lib"               "%DEST%\lib\"               >nul
+copy  /Y        "%~dp0install\BeatMarkerAE\index.html"        "%DEST%\index.html"         >nul
+copy  /Y        "%~dp0install\BeatMarkerAE\main.js"           "%DEST%\main.js"            >nul
+copy  /Y        "%~dp0install\BeatMarkerAE\analysis-bundle.js" "%DEST%\analysis-bundle.js" >nul
 
 if %errorLevel% neq 0 (
   if %PT%==1 (echo  ERRO ao copiar arquivos.) else (echo  ERROR copying files.)
