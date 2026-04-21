@@ -4,6 +4,18 @@ All notable changes to this project will be documented here.
 
 ---
 
+## [1.0.1] — 2026-04-20
+
+### Documentation & site
+
+- Added screenshots to README (plugin panel and timeline markers)
+- Added og-image for social link previews (WhatsApp, Discord, Twitter)
+- Added keyboard shortcuts section to README and GitHub Pages site (J / K)
+- Added shortcuts box to "How it works" section on the site
+- Fixed og:image meta tags on the GitHub Pages site
+
+---
+
 ## [1.0.0] — 2026-04-20
 
 ### Initial release
