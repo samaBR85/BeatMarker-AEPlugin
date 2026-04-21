@@ -92,4 +92,4 @@ After Effects native shortcuts that work with BeatMarker markers:
 
 ## License
 
-MIT
+GPL-3.0 — see [LICENSE](LICENSE)
