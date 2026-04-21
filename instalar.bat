@@ -62,7 +62,8 @@ if not defined AE_PATH (
 :: Remover barra final se houver
 if "%AE_PATH:~-1%"=="\" set AE_PATH=%AE_PATH:~0,-1%
 
-set AE_PATH=%AE_PATH%\Support Files
+:: Append Support Files apenas se ainda nao estiver no caminho
+if /i not "%AE_PATH:~-13%"=="Support Files" set AE_PATH=%AE_PATH%\Support Files
 
 :: Verificar se o caminho existe
 if not exist "%AE_PATH%" (
