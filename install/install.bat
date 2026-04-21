@@ -109,7 +109,7 @@ if %PT%==1 (echo  Copiando arquivos...) else (echo  Copying files...)
 if exist "%DEST%" rd /Q "%DEST%"
 mkdir "%DEST%"
 
-set SRC=%~dp0install\BeatMarkerAE
+set SRC=%~dp0BeatMarkerAE
 xcopy /E /I /Y "%SRC%\CSXS"               "%DEST%\CSXS\"               >nul
 xcopy /E /I /Y "%SRC%\jsx"                "%DEST%\jsx\"                >nul
 xcopy /E /I /Y "%SRC%\lib"                "%DEST%\lib\"                >nul
