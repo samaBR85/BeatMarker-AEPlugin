@@ -32,6 +32,23 @@ if %PT%==1 (
   echo.
 )
 
+:: Prompt de confirmacao
+if %PT%==1 (
+  echo  Pressione qualquer tecla para instalar, ou ESC para cancelar...
+) else (
+  echo  Press any key to install, or ESC to cancel...
+)
+echo.
+
+powershell -Command "$k = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown'); if ($k.VirtualKeyCode -eq 27) { exit 1 } else { exit 0 }"
+if %errorLevel% neq 0 (
+  if %PT%==1 (echo  Instalacao cancelada.) else (echo  Installation cancelled.)
+  echo.
+  pause
+  exit /b 0
+)
+echo.
+
 :: Verificar se rodando como admin
 net session >nul 2>&1
 if %errorLevel% neq 0 (
