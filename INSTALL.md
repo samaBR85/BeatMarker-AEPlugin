@@ -10,7 +10,7 @@
 ## Automatic Installation (Recommended)
 
 1. Download and extract `BeatMarkerAE.zip`
-2. Right-click `instalar.bat`
+2. Right-click `install.bat`
 3. Select **Run as Administrator**
 4. Follow the on-screen instructions
 5. **Restart After Effects**
@@ -85,7 +85,7 @@ reg delete "HKEY_LOCAL_MACHINE\SOFTWARE\Adobe\CSXS.13" /v PlayerDebugMode /f
 ## Troubleshooting
 
 **Panel doesn't appear in Window → Extensions**
-- Make sure you ran `instalar.bat` as Administrator
+- Make sure you ran `install.bat` as Administrator
 - Make sure After Effects was fully closed and reopened after installation
 - Verify the folder exists at `Support Files\BeatMarkerAE\`
 

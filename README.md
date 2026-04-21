@@ -44,7 +44,7 @@ See [INSTALL.md](INSTALL.md) for full instructions.
 
 **Quick start (Windows, After Effects 2026):**
 1. Download and extract the ZIP
-2. Right-click `instalar.bat` → Run as Administrator
+2. Right-click `install.bat` → Run as Administrator
 3. Restart After Effects
 4. Open via **Window → Extensions → BeatMarker AE**
 
