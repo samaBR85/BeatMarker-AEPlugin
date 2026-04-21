@@ -6,13 +6,17 @@ All notable changes to this project will be documented here.
 
 ## [1.0.1] — 2026-04-20
 
+### Fix
+
+- Installer now detects After Effects 2026 install path from Windows registry
+- Falls back to `C:\Program Files\Adobe\Adobe After Effects 2026` if registry key is not found
+- Fixes installation on machines where AE is installed on a different drive
+
 ### Documentation & site
 
 - Added screenshots to README (plugin panel and timeline markers)
 - Added og-image for social link previews (WhatsApp, Discord, Twitter)
-- Added keyboard shortcuts section to README and GitHub Pages site (J / K)
-- Added shortcuts box to "How it works" section on the site
-- Fixed og:image meta tags on the GitHub Pages site
+- Added keyboard shortcuts section (J / K) to README and GitHub Pages site
 
 ---
 
