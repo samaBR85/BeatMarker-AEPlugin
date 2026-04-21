@@ -2,16 +2,15 @@
 setlocal EnableDelayedExpansion
 chcp 65001 >nul
 
-:: ── BeatMarker AE — Instalador ───────────────────────────────────────────────
-:: Detecta idioma do sistema
+:: BeatMarker AE - Instalador
 for /f "tokens=3" %%a in ('reg query "HKCU\Control Panel\International" /v LocaleName 2^>nul') do set LOCALE=%%a
 echo %LOCALE% | findstr /i "^pt" >nul && set PT=1 || set PT=0
 
 if %PT%==1 (
   echo.
-  echo  ╔══════════════════════════════════════╗
-  echo  ║      BeatMarker AE — Instalador      ║
-  echo  ╚══════════════════════════════════════╝
+  echo  =========================================
+  echo       BeatMarker AE - Instalador
+  echo  =========================================
   echo.
   echo  Este instalador vai:
   echo   1. Copiar o plugin para o After Effects 2026
@@ -21,9 +20,9 @@ if %PT%==1 (
   echo.
 ) else (
   echo.
-  echo  ╔══════════════════════════════════════╗
-  echo  ║      BeatMarker AE — Installer       ║
-  echo  ╚══════════════════════════════════════╝
+  echo  =========================================
+  echo       BeatMarker AE - Installer
+  echo  =========================================
   echo.
   echo  This installer will:
   echo   1. Copy the plugin to After Effects 2026
@@ -55,7 +54,7 @@ if not defined AE_PATH (
   for /f "tokens=2*" %%a in ('reg query "HKLM\SOFTWARE\WOW6432Node\Adobe\After Effects\26.0" /v "InstallPath" 2^>nul') do set AE_PATH=%%b
 )
 
-:: Fallback: caminho padrão
+:: Fallback: caminho padrao
 if not defined AE_PATH (
   set AE_PATH=C:\Program Files\Adobe\Adobe After Effects 2026
 )
@@ -89,15 +88,16 @@ if %PT%==1 (echo  AE encontrado em: %AE_PATH%) else (echo  AE found at: %AE_PATH
 set DEST=%AE_PATH%\BeatMarkerAE
 if %PT%==1 (echo  Copiando arquivos...) else (echo  Copying files...)
 
-if exist "%DEST%" rmdir /S /Q "%DEST%"
+if exist "%DEST%" rd /Q "%DEST%"
 mkdir "%DEST%"
 
-xcopy /E /I /Y "%~dp0install\BeatMarkerAE\CSXS"              "%DEST%\CSXS\"              >nul
-xcopy /E /I /Y "%~dp0install\BeatMarkerAE\jsx"               "%DEST%\jsx\"               >nul
-xcopy /E /I /Y "%~dp0install\BeatMarkerAE\lib"               "%DEST%\lib\"               >nul
-copy  /Y        "%~dp0install\BeatMarkerAE\index.html"        "%DEST%\index.html"         >nul
-copy  /Y        "%~dp0install\BeatMarkerAE\main.js"           "%DEST%\main.js"            >nul
-copy  /Y        "%~dp0install\BeatMarkerAE\analysis-bundle.js" "%DEST%\analysis-bundle.js" >nul
+set SRC=%~dp0install\BeatMarkerAE
+xcopy /E /I /Y "%SRC%\CSXS"               "%DEST%\CSXS\"               >nul
+xcopy /E /I /Y "%SRC%\jsx"                "%DEST%\jsx\"                >nul
+xcopy /E /I /Y "%SRC%\lib"                "%DEST%\lib\"                >nul
+copy  /Y        "%SRC%\index.html"         "%DEST%\index.html"          >nul
+copy  /Y        "%SRC%\main.js"            "%DEST%\main.js"             >nul
+copy  /Y        "%SRC%\analysis-bundle.js" "%DEST%\analysis-bundle.js"  >nul
 
 if %errorLevel% neq 0 (
   if %PT%==1 (echo  ERRO ao copiar arquivos.) else (echo  ERROR copying files.)
@@ -116,12 +116,12 @@ reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Adobe\CSXS.13" /v PlayerDebugMode /t REG_SZ
 :: Sucesso
 echo.
 if %PT%==1 (
-  echo  ✓ BeatMarker AE instalado com sucesso!
+  echo  BeatMarker AE instalado com sucesso!
   echo.
   echo  Reinicie o After Effects e acesse:
   echo  Window ^> Extensions ^> BeatMarker AE
 ) else (
-  echo  ✓ BeatMarker AE installed successfully!
+  echo  BeatMarker AE installed successfully!
   echo.
   echo  Restart After Effects and go to:
   echo  Window ^> Extensions ^> BeatMarker AE
