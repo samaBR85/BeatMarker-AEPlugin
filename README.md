@@ -87,6 +87,7 @@ After Effects native shortcuts that work with BeatMarker markers:
 ## Author
 
 **samaBR** — [github.com/samaBR85](https://github.com/samaBR85)
+buy me a coffe on [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/E5N7227AO5)
 
 ---
 
