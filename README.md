@@ -1,5 +1,7 @@
 # BeatMarker AE
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/E5N7227AO5)
+
 > Automatic beat detection and marker creation for Adobe After Effects.
 
 BeatMarker AE analyzes the BPM of an audio layer and places colored markers on every beat — directly on the clip or on the composition timeline. Built as a CEP panel for After Effects 2026.
